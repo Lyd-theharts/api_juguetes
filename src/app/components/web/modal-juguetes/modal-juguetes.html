@@ -1,0 +1,149 @@
+<div class="modal-dialog p-2">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="miModalLabel">
+        {{editar ? nombre?.value : 'New Juguete'}}
+      </h5>
+      <button class="btn-close" type="button" (click)="activeModal.dismiss()" aria-label="Close"></button>
+    </div>
+
+    <div class="modal-body">
+      <form [formGroup]="formJuguete" (ngSubmit)="onSubmit()">
+        <div class="form-floating mb-3">
+          <input formControlName="nombre"
+                 type="text"
+                 class="form-control"
+                 id="nombre"
+                 placeholder="Nombre">
+          <label for="nombre">Nombre</label>
+          @if (nombre && nombre.invalid && (nombre.dirty || nombre.touched)) {
+            <div class="alert alert-danger" role="alert">
+              @if (nombre.errors && nombre.errors['required']) {
+                nombre es Obligatorio
+              }
+              @if (nombre.errors && nombre.errors['minlength']) {
+                nombre tiene que tener mínimo dos caracteres
+              }
+              @if (nombre.errors && nombre.errors['maxlength']) {
+                nombre tiene que tener máximo 200 caracteres
+              }
+              @if (nombre.errors && nombre.errors['notOnlyWhiteSpace']) {
+                nombre no puede ser solo espacios en blanco
+              }
+              @if (nombre.errors && nombre.errors['forbiddenName']) {
+                nombre no puede contener palabras prohibidas
+              }
+            </div>
+          }
+        </div>
+
+        <div class="row">
+          <div class="col-8">
+            <div class="form-floating mb-3">
+              <input formControlName="imagen"
+                     type="text"
+                     class="form-control"
+                     id="imagen"
+                     placeholder="Imagen">
+              <label for="imagen">Imagen</label>
+              @if (imagen && imagen.invalid && (imagen.dirty || imagen.touched)) {
+                <div class="alert alert-danger" role="alert">
+                  @if (imagen.errors && imagen.errors['required']) {
+                    imagen es Obligatorio
+                  }
+                  @if (imagen.errors && imagen.errors['minlength']) {
+                    imagen tiene que tener almenos 10 caracteres
+                  }
+                  @if (imagen.errors && imagen.errors['pattern']) {
+                    imagen tiene que ser en formato de imagen.
+                  }
+
+                </div>
+              }
+            </div>
+          </div>
+          <div class="col-4 mb-3">
+            <img [src]="imagen?.value || '/images/Image-not-found.png'"  class="img-fluid" alt="Image form Juguete">
+          </div>
+        </div>
+        <div class="form-floating mb-3">
+          <input formControlName="categoria"
+                 type="text"
+                 class="form-control"
+                 id="categoria"
+                 placeholder="Categoria">
+          <label for="categoria">Categoria</label>
+          @if (categoria && categoria.invalid && (categoria.dirty || categoria.touched)) {
+            <div class="alert alert-danger" role="alert">
+              @if (categoria.errors && categoria.errors['required']) {
+                categoria es Obligatorio
+              }
+              @if (categoria.errors && categoria.errors['minlength']) {
+                categoria tiene que tener mínimo dos caracteres
+              }
+              @if (categoria.errors && categoria.errors['maxlength']) {
+                categoria tiene que tener máximo 200 caracteres
+              }
+              @if (categoria.errors && categoria.errors['notOnlyWhiteSpace']) {
+                categoria no puede ser solo espacios en blanco
+              }
+              @if (categoria.errors && categoria.errors['forbiddenName']) {
+                categoria no puede contener palabras prohibidas
+              }
+            </div>
+          }
+        </div>
+        <div class="form-floating mb-3">
+          <input formControlName="edadMinima"
+                 type="number"
+                 class="form-control"
+                 id="edadMinima"
+                 placeholder="Edad Minima">
+          <label for="edadMinima">Edad Minima</label>
+          @if (edadMinima && edadMinima.invalid && (edadMinima.dirty || edadMinima.touched)) {
+            <div class="alert alert-danger" role="alert">
+              @if (edadMinima.errors && edadMinima.errors['required']) {
+                La edad Minima es Obligatorio
+              }
+              @if (edadMinima.errors && edadMinima.errors['min'] ) {
+                La edad Minima tiene que estar entre 1 y 18 años.
+              }
+              @if (edadMinima.errors && edadMinima.errors['max']) {
+                La edad Minima tiene que estar entre 1 y 18 años.
+              }
+
+            </div>
+          }
+        </div>
+        <div class="form-floating mb-3">
+          <input formControlName="precio"
+                 type="number"
+                 class="form-control"
+                 id="precio"
+                 [class.is-invalid]="precio?.invalid && precio?.touched"
+                 [title]="precio?.errors?.['required'] ? 'Campo obligatorio' :
+           precio?.errors?.['min'] ? 'Mínimo 0 Euros.' : ''"
+                 placeholder="Precio">
+          <label for="precio">Precio</label>
+          <!-- @if (precio && precio.invalid && (precio.dirty || precio.touched)) {
+              <div class="alert alert-danger" role="alert">
+                @if (precio.errors && precio.errors['required']) {
+                  precio es Obligatorio
+                }
+                @if (precio.errors && precio.errors['min']) {
+                  precio minimo 0 Euros.
+                }
+
+              </div>
+            } -->
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="onSubmit()">Save changes</button>
+
+      </div>
+
+    </div>
+  </div>

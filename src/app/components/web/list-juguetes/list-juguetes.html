@@ -1,0 +1,67 @@
+@if (loaded) {
+
+  @if (!isSearching) {
+    <ngb-pagination
+      [collectionSize]="collectionSize()"
+      [(page)]="currentPage"
+      [pageSize]="9"
+      (pageChange)="onPageChange($event)"
+      [maxSize]="5"
+      [boundaryLinks]="true"
+      aria-label="Paginación de juguetes">
+    </ngb-pagination>
+  }
+  <div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h3 class="m-0">{{ juguetes().length }} Juguetes</h3>
+      <div class="d-flex">
+        <input
+          type="text"
+          class="form-control me-2"
+          placeholder="Buscar por nombre..."
+          [(ngModel)]="searchNombre"
+          (keyup.enter)="buscarJuguetes()"
+          style="width: 250px;">
+      </div>
+      <button class="btn btn-outline-success" (click)="newjuguete()">Add Juguete</button>
+
+    </div>
+
+    <div class="container">
+      @for (juguete of juguetes(); track juguete._id) {
+        <div class="row border rounded shadow-sm mb-3 p-2"  >
+          <div class="col-md-5 align-self-center">
+            <img [src]="juguete.imagen || 'images/Image-not-found.png'"
+                 [alt]="juguete.nombre"
+                 class="img-fluid rounded"
+                 (error)="juguete.imagen = 'images/Image-not-found.png'">
+          </div>
+          <div class="col-md-5 align-self-center " >
+            <div class="row mt-3 pt-2 ">
+              <div class="col-md-12">
+                <h5>{{ juguete.nombre }}</h5>
+                <small class="text-danger">{{ juguete.categoria }}</small>
+                <p><strong>Edad Minima: </strong>{{ juguete.edadMinima }} - <strong>Precio: </strong>{{ juguete.precio }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2 align-self-center">
+            <h3 class="text-center">
+              <fa-icon [icon]="faTrashCan" class="text-danger pointer"
+                       (click)="removeJuguete(juguete)"></fa-icon>
+              <fa-icon [icon]="faEdit" class="text-success pointer"
+                       (click)="loadJuguete(juguete)"></fa-icon>
+            </h3>
+          </div>
+        </div>
+      }
+    </div>
+    @if (isSearching) {
+      <button (click)="volverALista()" class="btn btn-primary">
+        ← Ver todos los juguetes
+      </button>
+    }
+  </div>
+} @else {
+  <h2>Loading...</h2>
+}

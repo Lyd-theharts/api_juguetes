@@ -1,0 +1,9 @@
+
+.pointer:hover {
+  cursor: pointer;
+}
+
+.pointer:hover {
+  box-shadow: 2px 2px 6px 6px var(--bs-primary-bg-subtle) !important;
+  cursor: pointer;
+}
