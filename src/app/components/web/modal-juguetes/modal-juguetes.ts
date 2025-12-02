@@ -24,14 +24,16 @@ export class ModalJuguetes {
 
   formJuguete: FormGroup = this.formBuilder.group({ //formgroup es la respresentacion de un objeto en un formulario, y el formcontrol es la representacion del a variable en un formulario
     _id: [''],
-    nombre: ['' , [Validators.required, FormValidators.notOnlyWhiteSpace, FormValidators.forbiddenName(['sex','drug','drugs']),
-      Validators.minLength(2) , Validators.maxLength(200)]],
-    imagen: ['' , [Validators.required, Validators.minLength(10)],
-      Validators.pattern(/\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i)],
-    categoria: ['' , [Validators.required, FormValidators.notOnlyWhiteSpace, FormValidators.forbiddenName(['sex','drug','drugs']),
-      Validators.minLength(2) , Validators.maxLength(200)]],
-    edadMinima: [0 , [Validators.required, Validators.min(1) , Validators.max(18)]],
-    precio: [0 , [Validators.required, Validators.min(0)]],
+    nombre: ['', [Validators.required, FormValidators.notOnlyWhiteSpace, FormValidators.forbiddenName(['sex', 'drug', 'drugs']),
+      Validators.minLength(2), Validators.maxLength(200)]],
+    imagen: ['', [
+      Validators.required,
+      Validators.minLength(2),
+      FormValidators.allowedExtension(new RegExp('\.(jpg|jpeg|png|gif|webp)$', 'i'))]],
+    categoria: ['', [Validators.required, FormValidators.notOnlyWhiteSpace, FormValidators.forbiddenName(['sex', 'drug', 'drugs']),
+      Validators.minLength(2), Validators.maxLength(200)]],
+    edadMinima: [0, [Validators.required, Validators.min(1), Validators.max(18)]],
+    precio: [0, [Validators.required, FormValidators.minValue(0)]],
   })
 
   get nombre() {
@@ -62,8 +64,12 @@ export class ModalJuguetes {
     }
   }
 
-  onSubmit(){
-    if(this.editar){
+  onSubmit() {
+    if (this.formJuguete.invalid) {
+      this.formJuguete.markAsTouched();
+      return;
+    }
+    if (this.editar) {
       this.juguetesService.putJuguete(this.formJuguete.getRawValue()).subscribe(
         {
           next: value => {
@@ -75,7 +81,7 @@ export class ModalJuguetes {
           }
         }
       );
-    }else {
+    } else {
       this.juguetesService.postJuguete(this.formJuguete.getRawValue()).subscribe(
         {
           next: value => {

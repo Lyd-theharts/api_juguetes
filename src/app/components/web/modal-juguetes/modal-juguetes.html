@@ -54,9 +54,10 @@
                   @if (imagen.errors && imagen.errors['minlength']) {
                     imagen tiene que tener almenos 10 caracteres
                   }
-                  @if (imagen.errors && imagen.errors['pattern']) {
+                  @if (imagen.errors && imagen.errors['allowedExtension']) {
                     imagen tiene que ser en formato de imagen.
                   }
+
 
                 </div>
               }
@@ -70,10 +71,17 @@
           <input formControlName="categoria"
                  type="text"
                  class="form-control"
+                 [class.is-invalid]="categoria?.touched&&categoria?.invalid"
+                 [class.is-valid]="categoria?.valid"
+                 [title]="categoria?.errors?.['required'] ? 'categoria es Obligatorio' :
+         categoria?.errors?.['minlength'] ? 'categoria tiene que tener mínimo dos caracteres' :
+         categoria?.errors?.['maxlength'] ? 'categoria tiene que tener máximo 200 caracteres' :
+         categoria?.errors?.['notOnlyWhiteSpace'] ? 'categoria no puede ser solo espacios en blanco' :
+         categoria?.errors?.['forbiddenName'] ? 'categoria no puede contener palabras prohibidas' : ''"
                  id="categoria"
                  placeholder="Categoria">
           <label for="categoria">Categoria</label>
-          @if (categoria && categoria.invalid && (categoria.dirty || categoria.touched)) {
+          <!-- @if (categoria && categoria.invalid && (categoria.dirty || categoria.touched)) {
             <div class="alert alert-danger" role="alert">
               @if (categoria.errors && categoria.errors['required']) {
                 categoria es Obligatorio
@@ -89,9 +97,10 @@
               }
               @if (categoria.errors && categoria.errors['forbiddenName']) {
                 categoria no puede contener palabras prohibidas
-              }
-            </div>
-          }
+              }  </div>
+              }-->
+
+
         </div>
         <div class="form-floating mb-3">
           <input formControlName="edadMinima"
@@ -121,8 +130,9 @@
                  class="form-control"
                  id="precio"
                  [class.is-invalid]="precio?.invalid && precio?.touched"
+                 [class.is-valid]="precio?.valid"
                  [title]="precio?.errors?.['required'] ? 'Campo obligatorio' :
-           precio?.errors?.['min'] ? 'Mínimo 0 Euros.' : ''"
+           precio?.errors?.['minValue'] ? 'El precio Mínimo no puede ser 0 Euros o negativo.' : ''"
                  placeholder="Precio">
           <label for="precio">Precio</label>
           <!-- @if (precio && precio.invalid && (precio.dirty || precio.touched)) {

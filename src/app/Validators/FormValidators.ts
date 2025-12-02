@@ -28,5 +28,19 @@ export class FormValidators {
 
     }
   }
+  static minValue(value: number): ValidationErrors | null{
+    return (control: FormControl): ValidationErrors | null => {
+      if (control.value < value) return {minValue: true};
+      else return null;
+    }
+  }
+
+  static allowedExtension(regex: RegExp): ValidationErrors{
+    return (control: FormControl): ValidationErrors  | null => {
+      const allowed = regex.test(control.value);
+      console.log(allowed);
+      return allowed ? null : {allowedExtension: true};
+    }
+  }
 
 }
